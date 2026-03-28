@@ -35,7 +35,7 @@ public class boomtarTheGreat : MonoBehaviour
     private void Awake()
     {
         moduleId = moduleIdCounter++;
-        module.OnActivate += delegate () { cantInteract = false; mainRef = audio.HandlePlaySoundAtTransformWithRef("start", transform, false); };
+        // module.OnActivate += delegate () { cantInteract = false; mainRef = audio.HandlePlaySoundAtTransformWithRef("start", transform, false); };
         Action focus = delegate () { FocusModule(); };
         var mainSelectable = GetComponent<KMSelectable>();
         mainSelectable.OnFocus += focus;
@@ -52,6 +52,10 @@ public class boomtarTheGreat : MonoBehaviour
 
     private void Start()
     {
+        var mainCam = Camera.main;
+        if (mainCam != null)
+            mainCam.cullingMask &= ~LayerMask.GetMask("BoomtarPortalCamera");
+
         StartCoroutine(DisableStuff());
         rule1 = rnd.Range(0, 6);
         do { rule2 = rnd.Range(0, 6); } while (rule2 == rule1);
